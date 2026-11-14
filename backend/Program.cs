@@ -1,4 +1,6 @@
 using CustomerManagement.Api.Data;
+using CustomerManagement.Api.Repositories;
+using CustomerManagement.Api.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,7 +17,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 });
 
 
-//Register Open AI
+builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
+
+//Register OpenAPI
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
