@@ -1,6 +1,8 @@
 using CustomerManagement.Api.Data;
 using CustomerManagement.Api.Repositories;
 using CustomerManagement.Api.Repositories.Interfaces;
+using CustomerManagement.Api.Services;
+using CustomerManagement.Api.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,6 +20,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
+builder.Services.AddScoped<ICustomerService, CustomerService>();
 
 //Register OpenAPI
 builder.Services.AddOpenApi();
