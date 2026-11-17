@@ -4,6 +4,7 @@ using CustomerManagement.Api.Repositories.Interfaces;
 using CustomerManagement.Api.Services;
 using CustomerManagement.Api.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using CustomerManagement.Api.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +20,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 });
 
 
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+builder.Services.AddProblemDetails();
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
 
@@ -26,6 +29,9 @@ builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
+
+//Cath unhandled exceptions from later middleware/endpoints
+app.UseExceptionHandler();
 
 //Configure the HTTP request pipeline
 if (app.Environment.IsDevelopment())
