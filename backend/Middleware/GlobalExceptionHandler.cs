@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.OpenApi;
 
 namespace CustomerManagement.Api.Middleware
 {
@@ -29,9 +30,19 @@ namespace CustomerManagement.Api.Middleware
                 _ => StatusCodes.Status500InternalServerError
             };
 
-            _logger.LogError(
-                exception,
-                "An error occured while processing the request.");
+            if(statusCode == StatusCodes.Status404NotFound)
+            {
+                _logger.LogWarning(
+                    "Resource not found: {Message}",
+                    exception.Message);
+            }
+            else
+            {
+                _logger.LogError(
+                    exception,
+                    "an unexpected error occurred while processing the request.");
+            }
+
 
             var problem = new ProblemDetails
             {
