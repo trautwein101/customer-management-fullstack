@@ -3,13 +3,15 @@ using CustomerManagement.Api.Mappings;
 using CustomerManagement.Api.Models;
 using CustomerManagement.Api.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CustomerManagement.Api.Controllers
 {
 
     [ApiController]
     [Route("api/[controller]")]
-    public class CustomersController : Controller
+    [Authorize(Roles = "Admin")]
+    public class CustomersController : ControllerBase
     {
 
         private readonly ICustomerService _customerService;

@@ -5,6 +5,8 @@ using CustomerManagement.Api.Services;
 using CustomerManagement.Api.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using CustomerManagement.Api.Middleware;
+using CustomerManagement.Api.Auth;
+using CustomerManagement.Api.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,13 +22,24 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 });
 
 
-builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
-builder.Services.AddProblemDetails();
+builder.Services.AddSingleton<DemoUserStore>();
+
+
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 
-//Register OpenAPI
-builder.Services.AddOpenApi();
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+builder.Services.AddProblemDetails();
+
+//Register OpenAPI with JWT
+builder.Services.AddOpenApiWithJwt();
+
+//Authentication & Authorization
+builder.Services.AddJwtAuthentication(builder.Configuration);
+
+//CORS
+builder.Services.AddFrontendCors(builder.Configuration);
 
 var app = builder.Build();
 
@@ -46,8 +59,14 @@ if (app.Environment.IsDevelopment())
     });
 }
 
+
 app.UseHttpsRedirection();
 
+app.UseRouting();
+
+app.UseCors(CorsExtensions.FrontendCorsPolicy);
+
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
