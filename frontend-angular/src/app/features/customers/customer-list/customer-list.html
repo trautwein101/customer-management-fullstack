@@ -1,0 +1,40 @@
+<h2>Customers</h2>
+
+@if (isLoading()) {
+    <p>Loading customers...</p>
+}
+
+@if(errorMessage()){
+    <p class="error">{{ errorMessage() }}</p>
+}
+
+@if (!isLoading() && !errorMessage()){
+
+    @if (customers.length === 0){
+        <p>No customers found.</p>
+    }@else {
+           <table>
+            <thead>
+                <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Active</th>
+                </tr>
+            </thead> 
+            <tbody>
+                @for (customer of customers(); track customer.id ){
+                    <tr>
+                        <td>{{ customer.firstName }}</td>
+                        <td>{{ customer.lastName }}</td>
+                        <td>{{ customer.email }}</td>
+                        <td>{{ customer.phoneNumber ?? '-' }}</td>
+                        <td>{{ customer.isActive ? 'Yes' : 'No' }}</td>
+                    </tr>
+                }
+            </tbody>
+         </table>   
+    }
+}
+
