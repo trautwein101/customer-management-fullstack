@@ -1,0 +1,32 @@
+<h2>Login</h2>
+
+<form (submit)="login(); $event.preventDefault()">
+    <div>
+        <label for="username">Username</label>
+        <input
+            id="username"
+            type="text"
+            [formField]="loginForm.username"
+            autocomplete="username"
+            />
+    </div>
+
+    <div>
+        <label for="password">Password</label>
+        <input
+            id="password"
+            type="password"
+            [formField]="loginForm.password"
+            autocomplete="current-password"
+            />
+    </div>
+
+    @if (errorMessage()){
+        <p class="error">{{ errorMessage() }}</p>
+    }
+
+    <button type="submit" [disabled]="isLoading()">
+        {{ isLoading() ? 'Loggin in ...' : 'Login' }}
+    </button>
+
+</form>
