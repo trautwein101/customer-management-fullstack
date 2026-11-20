@@ -32,6 +32,7 @@ export class CustomerList implements OnInit {
       )
       .subscribe({
         next: (data) => {
+          console.log('Customers received:', data);
           this.customers.set(data);
         },
         error: (error) => {

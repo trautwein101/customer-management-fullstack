@@ -10,7 +10,7 @@
 
 @if (!isLoading() && !errorMessage()){
 
-    @if (customers.length === 0){
+    @if (customers().length === 0){
         <p>No customers found.</p>
     }@else {
            <table>
