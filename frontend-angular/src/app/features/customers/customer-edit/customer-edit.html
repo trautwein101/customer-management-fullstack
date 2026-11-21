@@ -1,0 +1,81 @@
+<h2>Edit Customer</h2>
+
+<a routerLink="/customers">Back</a>
+
+@if (isLoading()) {
+  <p>Loading customer...</p>
+}
+
+@if (errorMessage()) {
+  <p class="error">{{ errorMessage() }}</p>
+}
+
+@if (!isLoading() && !errorMessage()) {
+  <form novalidate (submit)="saveCustomer(); $event.preventDefault()">
+
+    <div>
+      <label for="firstName">First Name</label>
+      <input
+        id="firstName"
+        type="text"
+        [formField]="customerForm.firstName"
+      />
+
+      @if (customerForm.firstName().touched() &&
+           customerForm.firstName().invalid()) {
+        <p class="error">First name is required.</p>
+      }
+    </div>
+
+    <div>
+      <label for="lastName">Last Name</label>
+      <input
+        id="lastName"
+        type="text"
+        [formField]="customerForm.lastName"
+      />
+
+      @if (customerForm.lastName().touched() &&
+           customerForm.lastName().invalid()) {
+        <p class="error">Last name is required.</p>
+      }
+    </div>
+
+    <div>
+      <label for="email">Email</label>
+      <input
+        id="email"
+        type="email"
+        [formField]="customerForm.email"
+      />
+
+      @if (customerForm.email().touched() &&
+           customerForm.email().invalid()) {
+        <p class="error">Please enter a valid email address.</p>
+      }
+    </div>
+
+    <div>
+      <label for="phoneNumber">Phone Number</label>
+      <input
+        id="phoneNumber"
+        type="tel"
+        [formField]="customerForm.phoneNumber"
+      />
+    </div>
+
+    <div>
+      <label for="isActive">Active</label>
+      <input
+        id="isActive"
+        type="checkbox"
+        [formField]="customerForm.isActive"
+      />
+    </div>
+
+    <button type="submit" [disabled]="isLoading()">
+      Save Changes
+    </button>
+
+  </form>
+}
