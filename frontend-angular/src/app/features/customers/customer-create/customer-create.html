@@ -1,4 +1,17 @@
-<h2> Create Customer</h2>
+<h2>Create Customer</h2>
+
+<a routerLink="/customers">Back</a>
+
+<app-customer-form
+  [isLoading]="isLoading()"
+  (save)="saveCustomer($event)"
+/>
+
+@if (errorMessage()) {
+  <p class="error">{{ errorMessage() }}</p>
+}
+
+<!-- <h2> Create Customer</h2>
 <a routerLink="/customers">Back</a>
 
 <form novalidate (submit)="saveCustomer(); $event.preventDefault()">
@@ -63,4 +76,4 @@
 </form>
 
 
-
+ -->

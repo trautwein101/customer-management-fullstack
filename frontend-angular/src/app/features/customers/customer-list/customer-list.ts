@@ -1,5 +1,5 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { finalize } from 'rxjs';
+import { catchError, finalize, of } from 'rxjs';
 import { RouterLink } from '@angular/router';
 
 import { CustomerService } from '../services/customer';
@@ -29,6 +29,12 @@ export class CustomerList implements OnInit {
 
     this.customerService.getCustomers()
       .pipe(
+          catchError((error) => {
+            console.error('Error loading customers:', error);
+            this.errorMessage.set('Unable to load customers.');
+
+            return of([] as Customer[]);
+        }),
         finalize(() => this.isLoading.set(false))
       )
       .subscribe({
