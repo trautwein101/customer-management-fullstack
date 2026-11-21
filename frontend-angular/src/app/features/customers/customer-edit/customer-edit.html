@@ -1,4 +1,26 @@
+
 <h2>Edit Customer</h2>
+
+<a routerLink="/customers">Back</a>
+
+@if (isLoading() && !customer()) {
+  <p>Loading customer...</p>
+}
+
+@if (errorMessage()) {
+  <p class="error">{{ errorMessage() }}</p>
+}
+
+@if (customer()) {
+  <app-customer-form
+    [customer]="customer()"
+    [isLoading]="isLoading()"
+    (save)="saveCustomer($event)"
+  />
+}
+
+
+<!-- <h2>Edit Customer</h2>
 
 <a routerLink="/customers">Back</a>
 
@@ -78,4 +100,4 @@
     </button>
 
   </form>
-}
+} -->
