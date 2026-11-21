@@ -1,4 +1,5 @@
 <h2>Customers</h2>
+<a routerLink="/customers/create">Add Customer</a>
 
 @if (isLoading()) {
     <p>Loading customers...</p>
@@ -21,6 +22,7 @@
                 <th>Email</th>
                 <th>Phone</th>
                 <th>Active</th>
+                <th>&nbsp;</th>
                 </tr>
             </thead> 
             <tbody>
@@ -31,6 +33,16 @@
                         <td>{{ customer.email }}</td>
                         <td>{{ customer.phoneNumber ?? '-' }}</td>
                         <td>{{ customer.isActive ? 'Yes' : 'No' }}</td>
+                        <td>
+                            <a [routerLink]="['/customers', customer.id, 'edit']">
+                                Edit
+                            </a>
+                            &nbsp;&nbsp;
+                            <button type="button" (click)="deleteCustomer(customer.id)">
+                                Delete
+                            </button>
+                        </td>
+
                     </tr>
                 }
             </tbody>

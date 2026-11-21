@@ -1,14 +1,15 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { finalize } from 'rxjs';
+import { RouterLink } from '@angular/router';
 
 import { CustomerService } from '../services/customer';
 import { Customer } from '../models/customer.model';
 
 @Component({
   selector: 'app-customer-list',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './customer-list.html',
-  styleUrl: './customer-list.scss', 
+  styleUrl: './customer-list.scss',   
 })
 export class CustomerList implements OnInit {
 
@@ -41,4 +42,23 @@ export class CustomerList implements OnInit {
         }
       });
   }
+
+  deleteCustomer(id: number): void {
+    if(!confirm('Are you sure you want to delete this customer?')){
+      return;
+    }
+
+    this.customerService.deleteCustomer(id)
+    .subscribe({
+      next: () => {
+        this.loadCustomers();
+      },
+      error: (error) => {
+        console.error('Error deleting customer:', error);
+        this.errorMessage.set('Unable to delete customer.');
+      }
+    });
+
+  }
+
 }
